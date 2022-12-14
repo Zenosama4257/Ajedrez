@@ -5,4 +5,5 @@ public class Main {
         int b=0;
 
     }
+    int i = 0;
 }

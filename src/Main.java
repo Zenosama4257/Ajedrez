@@ -2,12 +2,18 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
+    public static final String RESET = "\u001B[0m";
+    public static final String GREEN = "\u001B[32m";
+    public static final String BLUE = "\u001B[34m";
+
     public static void main(String[] args) {
+        String[] movimientos = {"11", "12", "34", "57", "72"};
         String[][] tablero = tablero();
         mostrarTablero(tablero);
         String pos = posicion(tablero);
         char pieza = elegirPieza();
         System.out.println("Pieza: " + pieza + "\n" + "Posición: " + pos);
+        mostrarTablero(tablero, movimientos, pieza, pos);
     }
 
     public static void mostrarTablero(String[][] array){
@@ -33,7 +39,8 @@ public class Main {
         System.out.println();
     }
 
-    public static void imprimirTablero(String[][] array, String[] movimientos, char pieza){
+    public static void mostrarTablero(String[][] array, String[] movimientos, char pieza, String pos){
+        int color = 0;
         for (int i = 0; i <= array.length; i++){
             for (int j = 0; j < array.length; j++){
                 if(i == 8){
@@ -41,14 +48,43 @@ public class Main {
                         System.out.print("   " + array[0][j].toUpperCase().charAt(0));
                     }else {
                         System.out.print("  " + array[0][j].toUpperCase().charAt(0));
-
                     }
                 }else {
-                    if (j == 0){
-                        System.out.print(array[i][j].charAt(1) + " " + array[i][j]);
-                    }else {
-                        System.out.print(" " + array[i][j]);
+                    if(pos.equals(String.valueOf(i) + j)){
+                        color = 1;
+                    }else{
+                        for (int k = 0; k < movimientos.length; k++){
+                            if(movimientos[k].equals(String.valueOf(i) + j)){
+                                color = 2;
+                            }
+                        }
                     }
+                    switch (color){
+                        case 0:
+                            if (j == 0){
+                                System.out.print(array[i][j].charAt(1) + " " + array[i][j]);
+                            }else {
+                                System.out.print(" " + array[i][j]);
+                            }
+                            break;
+                        case 1:
+                            if (j == 0){
+                                System.out.print(array[i][j].charAt(1) + " " + BLUE + " " + pieza + RESET);
+                            }else {
+                                System.out.print(" " + BLUE + " " + pieza + RESET);
+                            }
+                            break;
+                        case 2:
+                            if (j == 0){
+                                System.out.print(array[i][j].charAt(1) + " " + GREEN + array[i][j] + RESET);
+                            }else {
+                                System.out.print(" " + GREEN + array[i][j] + RESET);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    color = 0;
                 }
             }
             System.out.println();

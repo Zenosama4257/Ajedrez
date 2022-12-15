@@ -45,33 +45,33 @@ public class Main {
         return posi+""+posj;
 
     }
-    public static String PosiblesMovimientos(String[][] tab,String pieza, String pos){
+    public static int[] PosiblesMovimientos(String[][] tab,String pieza, String pos){
         if (Objects.equals(pieza, "P")) {
-            /*String posicionPeon=PosicionPeon(tab, pos);
+            /*int[] posicionPeon=PosicionPeon(tab, pos);
             return posicionPeon;*/
         }
         if (Objects.equals(pieza, "T")) {
-            /*String posicionTorre=PosicionTorrre(tab, pos);
+            /*int[] posicionTorre=PosicionTorrre(tab, pos);
             return posicionTorre;*/
         }
         if (Objects.equals(pieza, "C")){
-            /*String posicionCaballo=PosicionCaballo(tab, pos);
+            /*int[] posicionCaballo=PosicionCaballo(tab, pos);
             return posicionCaballo;*/
         }
         if (Objects.equals(pieza, "A")){
-            /*String posicionAlfil=PosicionAlfil(tab, pos);
+            /*int[] posicionAlfil=PosicionAlfil(tab, pos);
             return posicionAlfil;*/
         }
         if (Objects.equals(pieza, "D")){
-            /*String posicionTorre=PosicionTorre(tab, pos);
-            String posicionAlfil=PosicionAlfil(tab, pos);
-            String posionDama=posicionTorre+posicionAlfil;
+            /*int[] posicionTorre=PosicionTorre(tab, pos);
+            int[] posicionAlfil=PosicionAlfil(tab, pos);
+            int[] posionDama=posicionTorre+posicionAlfil;
             return posionDama;*/
         }
         if (Objects.equals(pieza, "R")){
-            /*String posicionRey=PosicionRey(tab, pos);
+            /*int[] posicionRey=PosicionRey(tab, pos);
             return posicionRey;*/
         }
-        return "";
+        return new int[]{0};
     }
 }

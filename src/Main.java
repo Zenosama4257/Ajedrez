@@ -3,6 +3,11 @@ public class Main {
 
 
     }
+
+    public static void mostrarTablero(){
+
+    }
+
     public static  String[][] tablero(){
         String[][] tablero=new String[8][8];
         for (int i=7;i>=-1;i--){

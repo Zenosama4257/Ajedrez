@@ -45,10 +45,33 @@ public class Main {
         return posi+""+posj;
 
     }
-    /*public static String[][]PosiblesMovimientos(String[][] tab,String pieza, int pos){
-        if (pieza == "P") {
-            String posicionPeon=PosicionPeon(tab, pos);
+    public static String PosiblesMovimientos(String[][] tab,String pieza, String pos){
+        if (Objects.equals(pieza, "P")) {
+            /*String posicionPeon=PosicionPeon(tab, pos);
+            return posicionPeon;*/
         }
-        if (pieza ==)
-    }*/
+        if (Objects.equals(pieza, "T")) {
+            /*String posicionTorre=PosicionTorrre(tab, pos);
+            return posicionTorre;*/
+        }
+        if (Objects.equals(pieza, "C")){
+            /*String posicionCaballo=PosicionCaballo(tab, pos);
+            return posicionCaballo;*/
+        }
+        if (Objects.equals(pieza, "A")){
+            /*String posicionAlfil=PosicionAlfil(tab, pos);
+            return posicionAlfil;*/
+        }
+        if (Objects.equals(pieza, "D")){
+            /*String posicionTorre=PosicionTorre(tab, pos);
+            String posicionAlfil=PosicionAlfil(tab, pos);
+            String posionDama=posicionTorre+posicionAlfil;
+            return posionDama;*/
+        }
+        if (Objects.equals(pieza, "R")){
+            /*String posicionRey=PosicionRey(tab, pos);
+            return posicionRey;*/
+        }
+        return "";
+    }
 }

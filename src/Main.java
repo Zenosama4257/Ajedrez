@@ -1,4 +1,3 @@
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
@@ -7,13 +6,18 @@ public class Main {
     public static final String BLUE = "\u001B[34m";
 
     public static void main(String[] args) {
-        String[] movimientos = {"11", "12", "34", "57", "72"};
+        String pos;
+        char pieza;
+        String[] movimientos = {"11", "22", "33", "44", "55", "66", "77"};
         String[][] tablero = tablero();
         mostrarTablero(tablero);
-        String pos = posicion(tablero);
-        char pieza = elegirPieza();
-        System.out.println("Pieza: " + pieza + "\n" + "Posición: " + pos);
+        pos = posicion(tablero);
+        pieza = elegirPieza();
+        System.out.println("Pieza: " + pieza + "\n" + "Posición: " + pos + "\n\n" + "Ahora mostraremos los posibles movimientos:");
         mostrarTablero(tablero, movimientos, pieza, pos);
+        System.out.println("Donde te quieres mover? ");
+        pos = posicion(tablero);
+        mostrarTablero(tablero, pieza, pos);
     }
 
     public static void mostrarTablero(String[][] array){
@@ -85,6 +89,37 @@ public class Main {
                             break;
                     }
                     color = 0;
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    public static void mostrarTablero(String[][] array, char pieza, String pos){
+        for (int i = 0; i <= array.length; i++){
+            for (int j = 0; j < array.length; j++){
+                if(i == 8){
+                    if (j == 0){
+                        System.out.print("   " + array[0][j].toUpperCase().charAt(0));
+                    }else {
+                        System.out.print("  " + array[0][j].toUpperCase().charAt(0));
+
+                    }
+                }else {
+                    if(pos.equals(String.valueOf(i) + j)){
+                        if (j == 0){
+                            System.out.print(array[i][j].charAt(1) + " " + BLUE + " " + pieza + RESET);
+                        }else {
+                            System.out.print(" " + BLUE + " " + pieza + RESET);
+                        }
+                    }else{
+                        if (j == 0){
+                            System.out.print(array[i][j].charAt(1) + " " + array[i][j]);
+                        }else {
+                            System.out.print(" " + array[i][j]);
+                        }
+                    }
                 }
             }
             System.out.println();

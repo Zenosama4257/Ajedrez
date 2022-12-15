@@ -1,23 +1,70 @@
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         String[][] tablero = tablero();
         mostrarTablero(tablero);
-        String i = posicion(tablero);
-        System.out.println(i);
+        String pos = posicion(tablero);
+        char pieza = elegirPieza();
+        System.out.println("Pieza: " + pieza + "\n" + "Posición: " + pos);
     }
 
     public static void mostrarTablero(String[][] array){
-        for (int i = 0; i < array.length; i++){
+        for (int i = 0; i <= array.length; i++){
             for (int j = 0; j < array.length; j++){
-                System.out.print(" " + array[i][j]);
+                if(i == 8){
+                    if (j == 0){
+                        System.out.print("   " + array[0][j].toUpperCase().charAt(0));
+                    }else {
+                        System.out.print("  " + array[0][j].toUpperCase().charAt(0));
+
+                    }
+                }else {
+                    if (j == 0){
+                        System.out.print(array[i][j].charAt(1) + " " + array[i][j]);
+                    }else {
+                        System.out.print(" " + array[i][j]);
+                    }
+                }
             }
             System.out.println();
         }
+        System.out.println();
     }
 
-    public static  String[][] tablero(){
+    public static void imprimirTablero(String[][] array, String[] movimientos, char pieza){
+        for (int i = 0; i <= array.length; i++){
+            for (int j = 0; j < array.length; j++){
+                if(i == 8){
+                    if (j == 0){
+                        System.out.print("   " + array[0][j].toUpperCase().charAt(0));
+                    }else {
+                        System.out.print("  " + array[0][j].toUpperCase().charAt(0));
+
+                    }
+                }else {
+                    if (j == 0){
+                        System.out.print(array[i][j].charAt(1) + " " + array[i][j]);
+                    }else {
+                        System.out.print(" " + array[i][j]);
+                    }
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    public static char elegirPieza(){
+        Scanner sc = new Scanner(System.in);
+        char pieza;
+        System.out.print("Elige una pieza pieza D(ama/reina), R(ey), P(eón), A(lfil), C(aballo), T(orre): ");
+        pieza = sc.next().toUpperCase().charAt(0);
+        return pieza;
+    }
+
+    public static String[][] tablero(){
         String[][] tablero=new String[8][8];
         for (int i=7;i>-1;i--){
             for (int j=0;j<tablero[i].length;j++){

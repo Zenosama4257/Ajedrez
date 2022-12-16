@@ -8,20 +8,26 @@ public class Main {
 
     public static void main(String[] args) {
         String pos, pos1 = "";
+        boolean repetir = true;
         char pieza;
-        String[] movimientos = {"11", "22", "33", "44", "55", "66", "77"};
         String[][] tablero = tablero();
         mostrarTablero(tablero);
         pieza = elegirPieza();
         pos = posicion(tablero);
+        String[] movimientos = posiblesMovimientos(tablero, pieza, pos);
         System.out.println("Ahora mostraremos los posibles movimientos:");
         mostrarTablero(tablero, movimientos, pieza, pos);
         do {
-            if (pos.equals(pos1)){
-                System.out.println("Error: No puedes mover la pieza a la posicion actual.");
-            }
             pos1 = posicion(tablero);
-        }while (pos.equals(pos1));
+            for (int i = 0; i < movimientos.length; i++){
+                if (movimientos[i].equals(pos1)){
+                    repetir = false;
+                }
+            }
+            if (repetir){
+                System.out.println("Error: No puedes mover la pieza a esta posicion.");
+            }
+        }while (repetir);
         pos = pos1;
         mostrarTablero(tablero, pieza, pos);
     }
@@ -215,33 +221,59 @@ public class Main {
         return posi+""+posj;
     }
 
-    public static String[] PosiblesMovimientos(String[][] tab,String pieza, String pos){
-        if (Objects.equals(pieza, "P")) {
-            /*int[] posicionPeon=PosicionPeon(tab, pos);
-            return posicionPeon;*/
+    public static String[] posiblesMovimientos(String[][] tab,char pieza, String pos){
+        if (Objects.equals(pieza, 'P')) {
+            /*String[] movPeon=movimientosPeon(tab, pos);
+            return movPeon;*/
         }
-        if (Objects.equals(pieza, "T")) {
-            /*int[] posicionTorre=PosicionTorrre(tab, pos);
-            return posicionTorre;*/
+        if (Objects.equals(pieza, 'T')) {
+            /*String[] movTorre=movimientosTorre(tab, pos);
+            return movTorre;*/
         }
-        if (Objects.equals(pieza, "C")){
-            /*int[] posicionCaballo=PosicionCaballo(tab, pos);
-            return posicionCaballo;*/
+        if (Objects.equals(pieza, 'C')){
+            /*String[] movCaballo=movimientosCaballo(tab, pos);
+            return movCaballo;*/
         }
-        if (Objects.equals(pieza, "A")){
-            /*int[] posicionAlfil=PosicionAlfil(tab, pos);
-            return posicionAlfil;*/
+        if (Objects.equals(pieza, 'A')){
+            /*String[] movAlfil=movimientosAlfil(tab, pos);
+            return movAlfil;*/
         }
-        if (Objects.equals(pieza, "D")){
-            /*int[] posicionTorre=PosicionTorre(tab, pos);
-            int[] posicionAlfil=PosicionAlfil(tab, pos);
-            int[] posionDama=posicionTorre+posicionAlfil;
-            return posionDama;*/
+        if (Objects.equals(pieza, 'D')){
+            /*String[] movTorre=movimientosTorre(tab, pos);
+            String[] movAlfil=movimientosAlfil(tab, pos);
+            String[] movDama=moviTorre+movAlfil;
+            return movDama;*/
         }
-        if (Objects.equals(pieza, "R")){
-            /*int[] posicionRey=PosicionRey(tab, pos);
-            return posicionRey;*/
+        if (Objects.equals(pieza, 'R')){
+            String[] movRey=movimientosRey(tab, pos);
+            return movRey;
         }
         return new String[]{"00"};
+    }
+
+    public static String[] movimientosRey(String[][] tablero, String pos){
+        String[] mov = new String[8];
+        int cont = 0;
+
+        for (int i = -1; i < 2; i++){
+            for (int j = -1; j < 2; j++){
+                if (i != 0 || j != 0){
+                    int n = pos.charAt(0) - 48;
+                    int m = pos.charAt(1) - 48;
+
+                    n = n + i;
+                    m = m + j;
+
+                    if(n >= 0 && m >= 0){
+                        mov[cont] = String.valueOf(n) + m;
+                        cont++;
+                    }
+                }
+            }
+        }
+        String[] movRey = new String[cont];
+        movRey = mov;
+
+        return movRey;
     }
 }

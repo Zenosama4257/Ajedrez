@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -7,7 +8,7 @@ public class Main {
     public static final String BLUE = "\u001B[34m";
 
     public static void main(String[] args) {
-        String pos, pos1 = "";
+        String pos, pos1;
         boolean repetir = true;
         char pieza;
         String[][] tablero = tablero();
@@ -16,12 +17,14 @@ public class Main {
         pos = posicion(tablero);
         String[] movimientos = posiblesMovimientos(tablero, pieza, pos);
         System.out.println("Ahora mostraremos los posibles movimientos:");
+        //System.out.println(Arrays.toString(movimientos) + pos);
         mostrarTablero(tablero, movimientos, pieza, pos);
         do {
             pos1 = posicion(tablero);
-            for (int i = 0; i < movimientos.length; i++){
-                if (movimientos[i].equals(pos1)){
+            for (String movimiento : movimientos) {
+                if (movimiento.equals(pos1)) {
                     repetir = false;
+                    break;
                 }
             }
             if (repetir){
@@ -89,9 +92,10 @@ public class Main {
                             System.out.print(" |  " + cambiarColor(color) + pieza + cambiarColor(0));
                         }
                     }else{
-                        for (int k = 0; k < movimientos.length; k++){
-                            if(movimientos[k].equals(String.valueOf(i) + j)){
+                        for (String movimiento : movimientos) {
+                            if (movimiento.equals(String.valueOf(i) + j)) {
                                 color = 2;
+                                break;
                             }
                         }
                         if (j == 0){
@@ -114,6 +118,7 @@ public class Main {
     }
 
     public static void mostrarTablero(String[][] array, char pieza, String pos){
+        System.out.println("\n" + "--------------POSICIÓN FINAL---------------");
         for (int i = 0; i <= array.length; i++){
             System.out.println("  -----------------------------------------");
             for (int j = 0; j < array.length; j++){
@@ -146,7 +151,7 @@ public class Main {
                 System.out.println(" |");
             }
         }
-        System.out.println("\n" + "--------------POSICIÓN FINAL---------------");
+        System.out.println("\n" + "--------------FIN DEL PROGRAMA-------------");
     }
 
     public static char elegirPieza(){
@@ -245,13 +250,12 @@ public class Main {
             return movDama;*/
         }
         if (Objects.equals(pieza, 'R')){
-            String[] movRey=movimientosRey(tab, pos);
-            return movRey;
+            return movimientosRey(pos);
         }
         return new String[]{"00"};
     }
 
-    public static String[] movimientosRey(String[][] tablero, String pos){
+    public static String[] movimientosRey(String pos){
         String[] mov = new String[8];
         int cont = 0;
 
@@ -264,16 +268,15 @@ public class Main {
                     n = n + i;
                     m = m + j;
 
-                    if(n >= 0 && m >= 0){
+                    if(n >= 0 && m >= 0 && n <= 7 && m <= 7){
                         mov[cont] = String.valueOf(n) + m;
                         cont++;
                     }
                 }
             }
         }
-        String[] movRey = new String[cont];
-        movRey = mov;
-
-        return movRey;
+        String[] mov1 = new String[cont];
+        System.arraycopy(mov, 0, mov1, 0, cont);
+        return mov1;
     }
 }

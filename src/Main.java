@@ -20,6 +20,14 @@ public class Main {
         mostrarTablero(tablero, pieza, pos);
     }
 
+    public static String cambiarColor(int i){
+        return switch (i) {
+            case 1 -> BLUE;
+            case 2 -> GREEN;
+            default -> RESET;
+        };
+    }
+
     public static void mostrarTablero(String[][] array){
         for (int i = 0; i <= array.length; i++){
             for (int j = 0; j < array.length; j++){
@@ -56,37 +64,26 @@ public class Main {
                 }else {
                     if(pos.equals(String.valueOf(i) + j)){
                         color = 1;
+                        if (j == 0){
+                            System.out.print(array[i][j].charAt(1) + "  " + cambiarColor(color) + pieza + RESET);
+                            System.out.print(RESET);
+                        }else {
+                            System.out.print("  " + cambiarColor(color) + pieza + RESET);
+                            System.out.print(RESET);
+                        }
                     }else{
                         for (int k = 0; k < movimientos.length; k++){
                             if(movimientos[k].equals(String.valueOf(i) + j)){
                                 color = 2;
                             }
                         }
-                    }
-                    switch (color){
-                        case 0:
-                            if (j == 0){
-                                System.out.print(array[i][j].charAt(1) + " " + array[i][j]);
-                            }else {
-                                System.out.print(" " + array[i][j]);
-                            }
-                            break;
-                        case 1:
-                            if (j == 0){
-                                System.out.print(array[i][j].charAt(1) + " " + BLUE + " " + pieza + RESET);
-                            }else {
-                                System.out.print(" " + BLUE + " " + pieza + RESET);
-                            }
-                            break;
-                        case 2:
-                            if (j == 0){
-                                System.out.print(array[i][j].charAt(1) + " " + GREEN + array[i][j] + RESET);
-                            }else {
-                                System.out.print(" " + GREEN + array[i][j] + RESET);
-                            }
-                            break;
-                        default:
-                            break;
+                        if (j == 0){
+                            System.out.print(array[i][j].charAt(1) + " " + cambiarColor(color) + array[i][j] + RESET);
+                            System.out.print(RESET);
+                        }else {
+                            System.out.print(" " + cambiarColor(color) + array[i][j] + RESET);
+                            System.out.print(RESET);
+                        }
                     }
                     color = 0;
                 }

@@ -1,3 +1,5 @@
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -30,20 +32,35 @@ public class Main {
     }
     public  static  String posicion(String[][] tab) {
         Scanner SC = new Scanner(System.in);
-        System.out.println("Introduce la posicion deseada");
-        String pos = SC.next();
+
+        String pos="";
+        boolean b=true;
+        do {
+            System.out.println("Introduce la posicion deseada");
+            try {
+
+                pos= SC.next();
+                for (int i=0;i<pos.length();i++){
+                    char c1=pos.charAt(i);
+                    char c2=pos.charAt(i++);
+                    if (c1<'a'||c1>'h') throw (new IndexOutOfBoundsException());b=false;
+                    if (c2<'1'||c2>'8') throw (new IndexOutOfBoundsException());b=false;
+                }
+            }catch (IndexOutOfBoundsException e){
+                System.out.println("No has introducido una posicion valida");
+            }
+        }while (b);
         int posi=0;
         int posj=0;
         for (int i = 0; i < tab.length; i++) {
             for (int j = 0; j < tab[i].length; j++) {
-                if (Objects.equals(tab[i][j], pos)){
+                if (pos.equalsIgnoreCase(tab[i][j])){
                     posi=i;
                     posj=j;
                 }
             }
         }
         return posi+""+posj;
-
     }
     public static int[] PosiblesMovimientos(String[][] tab,String pieza, String pos){
         if (Objects.equals(pieza, "P")) {

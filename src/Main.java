@@ -103,13 +103,18 @@ public class Main {
             }
         }
         Scanner sc = new Scanner(System.in);
-        String color="";
+        char color='0';
+        boolean b=true;
         do {
             System.out.println("Introduce si es B (blanca) o N (negra)");
-            color = sc.next();
-        }while (color=="B"||color=="N");
+            String c = sc.next();
+            color =c.charAt(0);
+            if (color=='B' || 'N' == color){
+                b=false;
+            }
+        }while (b);
         int cont =0;
-        if (color.equalsIgnoreCase("B")) {
+        if (color == 'B') {
             if (x == 7) {
                 System.out.println("Este peon no puede estar aqui porfavor intoduzca una adecuada");
                 posicion(tab);
@@ -171,7 +176,7 @@ public class Main {
 
 
         }
-        if (color.equalsIgnoreCase("N")) {
+        if (color=='N') {
             if (x == 0) {
                 System.out.println("Este peon no puede estar aqui porfavor intoduzca una adecuada");
                 posicion(tab);

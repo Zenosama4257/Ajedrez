@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner( System.in);
         String  [][] Tablero = new String[9][9];
-       
+
 
 
 
@@ -119,6 +119,10 @@ public class Main {
             devuelve[d] = posmov[d];
         }
         return devuelve;
+
+    }
+
+    public static String [] movimientosCastillo (String[][] tab, String posicion){
 
     }
 }

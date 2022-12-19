@@ -8,30 +8,37 @@ public class Main {
     public static final String BLUE = "\u001B[34m";
 
     public static void main(String[] args) {
-        String pos, pos1;
+        String pos;
+        String[] posAux = new String[1];
         boolean repetir = true;
         char pieza;
         String[][] tablero = tablero();     //Creamos el tablero
         mostrarTablero(tablero);            //Mostramos el tablero vacio
         pieza = elegirPieza();              //Elegimos la pieza
         pos = posicion(tablero);            //Posicion donde empieza la pieza
-        String[] movimientos = posiblesMovimientos(tablero, pieza, pos);    //Dependiendo de la pieza elegida se devolverá unos movimientos concretos
+        posAux[0] = pos;
+        String[] movimientos = posiblesMovimientos(tablero, pieza, posAux);    //Dependiendo de la pieza elegida se devolverá unos movimientos concretos
+        pos = posAux[0];
         System.out.println("Ahora mostraremos los posibles movimientos:");
         //System.out.println(Arrays.toString(movimientos));
-        mostrarTablero(tablero, movimientos, pieza, pos);       //Esta vez muestra el tablero con la pieza en la posicion indicada y sus posibles movimientos
-        do {                                            //Do While para comprobar si el usuario indica una posicion válida
-            pos = posicion(tablero);                   //El usuario indica donde quiere moverse
-            for (String movimiento : movimientos) {     //Comprueba si con los posibles movimientos mostrados en el tablero, el usuario elige uno de ellos
-                if (movimiento.equals(pos)) {          //No se puede mover a casillas blancas ni a su propia casilla
-                    repetir = false;                    //una vez encuentra que la posicion indicada por el usuario es válida sale del bucle
-                    break;
+        mostrarTablero(tablero, movimientos, pieza, pos);   //Esta vez muestra el tablero con la pieza en la posicion indicada y sus posibles movimientos
+        if (movimientos.length != 0) {
+            do {                                            //Do While para comprobar si el usuario indica una posicion válida
+                pos = posicion(tablero);                   //El usuario indica donde quiere moverse
+                for (String movimiento : movimientos) {     //Comprueba si con los posibles movimientos mostrados en el tablero, el usuario elige uno de ellos
+                    if (movimiento.equals(pos)) {          //No se puede mover a casillas blancas ni a su propia casilla
+                        repetir = false;                    //una vez encuentra que la posicion indicada por el usuario es válida sale del bucle
+                        break;
+                    }
                 }
-            }
-            if (repetir){                               //Error por si no es valido el moviemiento
-                System.out.println("Error: No puedes mover la pieza a esta posicion.");
-            }
-        }while (repetir);
-        mostrarTablero(tablero, pieza, pos);            //Ahora mostrará el tablero con la posicion final de la pieza
+                if (repetir) {                               //Error por si no es valido el moviemiento
+                    System.out.println("Error: No puedes mover la pieza a esta posicion.");
+                }
+            } while (repetir);
+            mostrarTablero(tablero, pieza, pos);            //Ahora mostrará el tablero con la posicion final de la pieza
+        }else{
+            mostrarTablero(tablero, pieza, pos);
+        }
     }
 
     public static String cambiarColor(int i){           //Devuelve un String que indica el color mostrado por pantalla
@@ -157,6 +164,7 @@ public class Main {
         System.out.println("\n" + "--------------FIN DEL PROGRAMA-------------");
     }
 
+    //Funcion para elegir una de las piezas, solo acepta la primera letra de cada pieza, ignora mayusculas y minusculas
     public static char elegirPieza(){
         Scanner sc = new Scanner(System.in);
         char pieza = '|';
@@ -182,6 +190,7 @@ public class Main {
         return pieza;
     }
 
+    //Funcion para crear el tablero. Con un String con las letras y el incremento del bucle for, va dando nombre a cada casilla
     public static String[][] tablero(){
         String[][] tablero=new String[8][8];
         for (int i=7;i>-1;i--){
@@ -194,12 +203,13 @@ public class Main {
         return tablero;
     }
 
+    //Funcion para que el usuario eliga posición.
     public  static  String posicion(String[][] tab) {
         Scanner SC = new Scanner(System.in);
 
-        String pos="";
-        boolean b;
-        do {
+        String pos="";      //El usuario deberá introducir, con la nomenclatura del ajedrez clasico la casilla elegida.
+        boolean b;          //Luego comprobamos que es válida y finalmente devolvemos un String con la posición en la matriz
+        do {                //Ejemplo: El usuario introduce "c3" la funcion devuelve "52"
             b=true;
             System.out.print("Elige una posición: ");
             try {
@@ -229,26 +239,25 @@ public class Main {
         return posi+""+posj;
     }
 
-    public static String[] posiblesMovimientos(String[][] tab,char pieza, String pos){
+    //Funcion que llama a las demás que devuelven los posibles movimientos. Los movimientos de la dama es la suma de los movimientos de la torre
+    //mas los del alfil.
+    public static String[] posiblesMovimientos(String[][] tab,char pieza, String[] posAux){
+        String pos = posAux[0];
         if (Objects.equals(pieza, 'P')) {
-            /*String[] movPeon=movimientosPeon(tab, pos);
-            return movPeon;*/
+            return movimientosPeon(tab, posAux);
         }
         if (Objects.equals(pieza, 'T')) {
-            String[] movTorre=movimientosTorre(tab, pos);
-            return movTorre;
+            return movimientosTorre(pos);
         }
         if (Objects.equals(pieza, 'C')){
-            /*String[] movCaballo=movimientosCaballo(tab, pos);
-            return movCaballo;*/
+            return movimientosCaballo(pos);
         }
         if (Objects.equals(pieza, 'A')){
-            String[] movAlfil=movimientosAlfil(tab, pos);
-            return movAlfil;
+            return movimientosAlfil(pos);
         }
         if (Objects.equals(pieza, 'D')){
-            String[] movTorre=movimientosTorre(tab, pos);
-            String[] movAlfil=movimientosAlfil(tab, pos);
+            String[] movTorre=movimientosTorre(pos);
+            String[] movAlfil=movimientosAlfil(pos);
             String[] movDama = new String[movTorre.length + movAlfil.length];
             System.arraycopy(movTorre, 0, movDama, 0, movTorre.length);
             System.arraycopy(movAlfil, 0, movDama, movTorre.length, movAlfil.length);
@@ -260,6 +269,7 @@ public class Main {
         return new String[]{"00"};
     }
 
+    //Gracias a un bucle for anidado, buscamos las posiciones del rey, y desecha las posiciones fuera de la matriz
     public static String[] movimientosRey(String pos){
         String[] mov = new String[8];
         int cont = 0;
@@ -285,7 +295,7 @@ public class Main {
         return mov1;
     }
 
-    public static String [] movimientosTorre (String[][] tab, String posicion){
+    public static String [] movimientosTorre (String posicion){
         char pos1 = posicion.charAt(0);
         String f = String.valueOf(pos1);
         char pos2 = posicion.charAt(1);
@@ -314,7 +324,7 @@ public class Main {
         return posmov;
     }
 
-    public static String [] movimientosAlfil (String[][] tab, String posicion) {
+    public static String [] movimientosAlfil (String posicion) {
         char pos1 = posicion.charAt(0);
         String f = String.valueOf(pos1);
         char pos2 = posicion.charAt(1);
@@ -375,5 +385,254 @@ public class Main {
         }
         return devuelve;
 
+    }
+
+    public static String[] movimientosPeon(String[][] tab, String[] posAux) {
+        Scanner sc = new Scanner(System.in);
+
+        String pos = posAux[0];
+        String[] mov = new String[4];
+        int cont = 0;
+        char color;
+        boolean repetir;
+
+        do {
+            repetir = true;
+            System.out.print("Introduce si es B (blanca) o N (negra): ");
+            String c = sc.next();
+            color =c.toUpperCase().charAt(0);
+            if (color=='B' || 'N' == color){
+                repetir=false;
+            }
+        }while (repetir);
+
+        do {
+            repetir = false;
+            if(color == 'N'){
+                if (pos.charAt(0) == '0'){
+                    repetir = true;
+                    System.out.print("Error: No puede estar en esa posición" + "\n" + "Elige otra posición: ");
+                    pos = posicion(tab);
+                    posAux[0] = pos;
+                }else if (pos.charAt(0) == '1'){
+                    for (int i = 0; i < 4; i++){
+                        int n = pos.charAt(0) - 48;
+                        int m = pos.charAt(1) - 48;
+                        if (i == 0){
+                            n = n + 1;
+                            m = m - 1;
+                        }else if (i == 1){
+                            n = n + 1;
+                        }else if (i == 2){
+                            n = n + 2;
+                        }else if (i == 3){
+                            n = n + 1;
+                            m = m + 1;
+                        }
+                        if (n >= 0 && m >= 0 && n <= 7 && m <= 7) {
+                            mov[cont] = String.valueOf(n) + m;
+                            cont++;
+                        }
+                    }
+                    String[] mov1 = new String[cont];
+                    System.arraycopy(mov, 0, mov1, 0, cont);
+                    return mov1;
+                }else {
+                    for (int i = 0; i < 3; i++){
+                        int n = pos.charAt(0) - 48;
+                        int m = pos.charAt(1) - 48;
+                        if (i == 0){
+                            n = n + 1;
+                            m = m - 1;
+                        }else if (i == 1){
+                            n = n + 1;
+                        }else if (i == 2){
+                            n = n + 1;
+                            m = m + 1;
+                        }
+                        if (n >= 0 && m >= 0 && n <= 7 && m <= 7) {
+                            mov[cont] = String.valueOf(n) + m;
+                            cont++;
+                        }
+                    }
+                    String[] mov1 = new String[cont];
+                    System.arraycopy(mov, 0, mov1, 0, cont);
+                    return mov1;
+                }
+            }else {
+                if (pos.charAt(0) == '7'){
+                    repetir = true;
+                    System.out.print("Error: No puede estar en esa posición" + "\n" + "Elige otra posición: ");
+                    pos = posicion(tab);
+                    posAux[0] = pos;
+                }else if (pos.charAt(0) == '6'){
+                    for (int i = 0; i < 4; i++){
+                        int n = pos.charAt(0) - 48;
+                        int m = pos.charAt(1) - 48;
+                        if (i == 0){
+                            n = n - 1;
+                            m = m - 1;
+                        }else if (i == 1){
+                            n = n - 1;
+                        }else if (i == 2){
+                            n = n - 2;
+                        }else if (i == 3){
+                            n = n - 1;
+                            m = m + 1;
+                        }
+                        if (n >= 0 && m >= 0 && n <= 7 && m <= 7) {
+                            mov[cont] = String.valueOf(n) + m;
+                            cont++;
+                        }
+                    }
+                    String[] mov1 = new String[cont];
+                    System.arraycopy(mov, 0, mov1, 0, cont);
+                    return mov1;
+                }else {
+                    for (int i = 0; i < 3; i++){
+                        int n = pos.charAt(0) - 48;
+                        int m = pos.charAt(1) - 48;
+                        if (i == 0){
+                            n = n - 1;
+                            m = m - 1;
+                        }else if (i == 1){
+                            n = n - 1;
+                        }else if (i == 2){
+                            n = n - 1;
+                            m = m + 1;
+                        }
+                        if (n >= 0 && m >= 0 && n <= 7 && m <= 7) {
+                            mov[cont] = String.valueOf(n) + m;
+                            cont++;
+                        }
+                    }
+                    String[] mov1 = new String[cont];
+                    System.arraycopy(mov, 0, mov1, 0, cont);
+                    return mov1;
+                }
+            }
+        }while (repetir);
+        String[] mov1 = new String[1];
+        return mov1;
+    }
+
+    public static String [] movimientosCaballo (String posicion){
+        char pos1 = posicion.charAt(0);
+        String f = String.valueOf(pos1);
+        char pos2 = posicion.charAt(1);
+        String c = String.valueOf(pos2);
+        int posf = Integer.parseInt(f);
+        int posc = Integer.parseInt(c);
+//He creado 2 nuevas variables que son iguales a posf y posc para que al hacer los incrementos y decrementos para calcular las posibles posicionnes del Alfil no cambiar las posiciones originales de posf y posc y así tener una forma de volver ha inicializar las aux después de cada bucle para que la función no se ponga a calcular todos los posibles movimientos con los incrementos y decrementos que se le hayan atribuido en el bucle    anterior
+        int auxf = posf;
+        int auxc = posc;
+        String[] posmov = new String[8];
+        //Este contador sera el encargado de asignarle una posición dentro del array de String a cada posible resultado de la torre que va ha guardar
+        int count = 0;
+        for (int i = 0; i < 1; i++) {
+            auxc += 2;
+            auxf++;
+            String aux = String.valueOf(auxf) + String.valueOf(auxc);
+            if ( (auxc <= 7) && (auxf <= 7)) {
+                posmov[count] = aux;
+                count++;
+            }
+        }
+
+        auxf = posf;
+        auxc = posc;
+        for (int j = 0; j < 1; j++) {
+            auxc += 2;
+            auxf--;
+            String aux = String.valueOf(auxf) + String.valueOf(auxc);
+            if ((auxc <= 7) && (auxf >= 0)) {
+                posmov[count] = aux;
+                count++;
+            }
+
+        }
+        auxf = posf;
+        auxc = posc;
+        for (int u = 0; u < 1; u++) {
+            auxc -= 2;
+            auxf++;
+            String aux = String.valueOf(auxf) + String.valueOf(auxc);
+            if ( (auxc >= 0) && (auxf <= 7)) {
+                posmov[count] = aux;
+                count++;
+            }
+
+        }
+
+        auxf = posf;
+        auxc = posc;
+
+        for (int p = 0; p < 1; p++) {
+            auxc -= 2;
+            auxf--;
+            String aux = String.valueOf(auxf) + String.valueOf(auxc);
+            if ((auxc >= 0) && (auxf >= 0)) {
+                posmov[count] = aux;
+                count++;
+            }
+        }
+
+        auxf = posf;
+        auxc = posc;
+
+        for (int p = 0; p < 1; p++) {
+            auxc--;
+            auxf +=2 ;
+            String aux = String.valueOf(auxf) + String.valueOf(auxc);
+            if ((auxc >= 0) && (auxf <= 7)) {
+                posmov[count] = aux;
+                count++;
+            }
+        }
+
+        auxf = posf;
+        auxc = posc;
+
+        for (int p = 0; p < 1; p++) {
+            auxc--;
+            auxf -= 2;
+            String aux = String.valueOf(auxf) + String.valueOf(auxc);
+            if ((auxc >= 0) && (auxf >= 0)) {
+                posmov[count] = aux;
+                count++;
+            }
+        }
+
+        auxf = posf;
+        auxc = posc;
+
+        for (int p = 0; p < 1; p++) {
+            auxc++;
+            auxf -= 2;
+            String aux = String.valueOf(auxf) + String.valueOf(auxc);
+            if ((auxc <= 7) && (auxf >= 0)) {
+                posmov[count] = aux;
+                count++;
+            }
+        }
+
+        auxf = posf;
+        auxc = posc;
+
+        for (int p = 0; p < 1; p++) {
+            auxc++;
+            auxf += 2;
+            String aux = String.valueOf(auxf) + String.valueOf(auxc);
+            if ((auxc <= 7) && (auxf <= 7)) {
+                posmov[count] = aux;
+                count++;
+            }
+        }
+
+        String [] devuelve = new String[count];
+        for (int d= 0; d< count; d++) {
+            devuelve[d] = posmov[d];
+        }
+        return devuelve;
     }
 }

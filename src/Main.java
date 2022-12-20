@@ -387,34 +387,34 @@ public class Main {
 
     }
 
-    public static String[] movimientosPeon(String[][] tab, String[] posAux) {
+    public static String[] movimientosPeon(String[][] tab, String[] posAux) {//La funcion recibe el tablero y la posicion introducida y devuelve un array con los posibles movimientos
         Scanner sc = new Scanner(System.in);
 
-        String pos = posAux[0];
+        String pos = posAux[0];//Se declaran las variables que utilizaremos
         String[] mov = new String[4];
         int cont = 0;
         char color;
         boolean repetir;
 
-        do {
+        do {// Este bucle se realiza hasta q el ussuario intro duce B o N
             repetir = true;
-            System.out.print("Introduce si es B (blanca) o N (negra): ");
+            System.out.print("Introduce si es B (blanca) o N (negra): ");//Aqui se le pregunta al ususario si el peon es negro o blamco
             String c = sc.next();
             color =c.toUpperCase().charAt(0);
             if (color=='B' || 'N' == color){
                 repetir=false;
             }
-        }while (repetir);
+        }while (repetir);//Comienza el bucle si se introduce una pisicion invalida
 
         do {
             repetir = false;
-            if(color == 'N'){
-                if (pos.charAt(0) == '0'){
-                    repetir = true;
+            if(color == 'N'){//Este if comprueba si es negra
+                if (pos.charAt(0) == '0'){// Si esta en la ultima fila sale este mesaje de error y vuelve a pedir la posicion
+                    repetir = true;//Se le asigna a true para poder repitir por el error
                     System.out.print("Error: No puede estar en esa posición" + "\n" + "Elige otra posición: ");
                     pos = posicion(tab);
                     posAux[0] = pos;
-                }else if (pos.charAt(0) == '1'){
+                }else if (pos.charAt(0) == '1'){//Si se encuentra wn la penultima posicion tiene que moverse dos posiciones
                     for (int i = 0; i < 4; i++){
                         int n = pos.charAt(0) - 48;
                         int m = pos.charAt(1) - 48;
@@ -430,14 +430,14 @@ public class Main {
                             m = m + 1;
                         }
                         if (n >= 0 && m >= 0 && n <= 7 && m <= 7) {
-                            mov[cont] = String.valueOf(n) + m;
+                            mov[cont] = String.valueOf(n) + m;//Se le introducen todos los posibles moviminetos contando con el caso de moverse dos
                             cont++;
                         }
                     }
                     String[] mov1 = new String[cont];
                     System.arraycopy(mov, 0, mov1, 0, cont);
                     return mov1;
-                }else {
+                }else {//Si no se encuentra ni en la ultima ni en la penultima se ejuta lo normal
                     for (int i = 0; i < 3; i++){
                         int n = pos.charAt(0) - 48;
                         int m = pos.charAt(1) - 48;
@@ -455,18 +455,18 @@ public class Main {
                             cont++;
                         }
                     }
-                    String[] mov1 = new String[cont];
+                    String[] mov1 = new String[cont];//Se le intrucen la cantidad posible de movimientos avilitados
                     System.arraycopy(mov, 0, mov1, 0, cont);
                     return mov1;
                 }
-            }else {
-                if (pos.charAt(0) == '7'){
-                    repetir = true;
-                    System.out.print("Error: No puede estar en esa posición" + "\n" + "Elige otra posición: ");
+            }else {//Si es blanca se ejecuta la siguiente sentencia
+                if (pos.charAt(0) == '7'){//Si esta en la primera fila
+                    repetir = true;//Para hacer q se pueda repetir despues del error
+                    System.out.print("Error: No puede estar en esa posición" + "\n" + "Elige otra posición: ");//Salta este mensaje de error y vuelve a pedir la posicion
                     pos = posicion(tab);
                     posAux[0] = pos;
-                }else if (pos.charAt(0) == '6'){
-                    for (int i = 0; i < 4; i++){
+                }else if (pos.charAt(0) == '6'){//Si esta en la ssegunda fila
+                    for (int i = 0; i < 4; i++){ //Se contepla la posiblidad de moverse dos posiciones
                         int n = pos.charAt(0) - 48;
                         int m = pos.charAt(1) - 48;
                         if (i == 0){
@@ -481,14 +481,14 @@ public class Main {
                             m = m + 1;
                         }
                         if (n >= 0 && m >= 0 && n <= 7 && m <= 7) {
-                            mov[cont] = String.valueOf(n) + m;
+                            mov[cont] = String.valueOf(n) + m;//Se le introducen todas las posibles posiciones
                             cont++;
                         }
                     }
                     String[] mov1 = new String[cont];
                     System.arraycopy(mov, 0, mov1, 0, cont);
                     return mov1;
-                }else {
+                }else {//Si no se encuetra ni la primera ni en la segunda se ejucuta de forma normal
                     for (int i = 0; i < 3; i++){
                         int n = pos.charAt(0) - 48;
                         int m = pos.charAt(1) - 48;
@@ -502,16 +502,16 @@ public class Main {
                             m = m + 1;
                         }
                         if (n >= 0 && m >= 0 && n <= 7 && m <= 7) {
-                            mov[cont] = String.valueOf(n) + m;
+                            mov[cont] = String.valueOf(n) + m;//Se le introducen todas sus posibles posiciones
                             cont++;
                         }
                     }
-                    String[] mov1 = new String[cont];
+                    String[] mov1 = new String[cont];//Se le asignan los movimientes al otro string
                     System.arraycopy(mov, 0, mov1, 0, cont);
-                    return mov1;
+                    return mov1;//Se devuelve un array de strings con todas las posibles posiciones
                 }
             }
-        }while (repetir);
+        }while (repetir);//Se repite si se ha prodicido un error y con la nueva posicion ejecutarlo de nuevo
         String[] mov1 = new String[1];
         return mov1;
     }

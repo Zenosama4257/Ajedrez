@@ -411,7 +411,7 @@ public class Main {
             if(color == 'N'){//Este if comprueba si es negra
                 if (pos.charAt(0) == '0'){// Si esta en la ultima fila sale este mesaje de error y vuelve a pedir la posicion
                     repetir = true;//Se le asigna a true para poder repitir por el error
-                    System.out.print("Error: No puede estar en esa posición" + "\n" + "Elige otra posición: ");
+                    System.out.println("Error: No puede estar en esa posición");
                     pos = posicion(tab);
                     posAux[0] = pos;
                 }else if (pos.charAt(0) == '1'){//Si se encuentra wn la penultima posicion tiene que moverse dos posiciones

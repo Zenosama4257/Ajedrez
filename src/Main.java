@@ -54,7 +54,7 @@ public class Main {
             System.out.println("  -----------------------------------------");
             for (int j = 0; j < array.length; j++){
                 if(i == 8){                                                                 //Dependiendo de si quiere mostrar la ultima fila, que solo mostrará la
-                                                                                            //número asociado a esa columna
+                    //número asociado a esa columna
                     if (j == 0){                                                            //Cuando imprime la primera posicion de cada Fila, muestra primero
                         System.out.print("     " + array[0][j].toUpperCase().charAt(0));    //el caracter que va asociado a esa fila
                     }else {
@@ -294,6 +294,7 @@ public class Main {
         System.arraycopy(mov, 0, mov1, 0, cont);
         return mov1;
     }
+
 
     public static String [] movimientosTorre (String posicion){
         //Hasta la linea 34 son casteos que hago para transformar el string que me da posición con los números de la fila y la columna para poder pasarlo a enteros y trabajar con ellos.

@@ -296,23 +296,28 @@ public class Main {
     }
 
     public static String [] movimientosTorre (String posicion){
+        //Hasta la linea 34 son casteos que hago para transformar el string que me da posición con los números de la fila y la columna para poder pasarlo a enteros y trabajar con ellos.
         char pos1 = posicion.charAt(0);
         String f = String.valueOf(pos1);
         char pos2 = posicion.charAt(1);
         String c = String.valueOf(pos2);
         int posf = Integer.parseInt(f);
         int posc = Integer.parseInt(c);
+        //Este contador sera el encargado de asignarle una posición dentro del array de String a cada posible resultado de la torre que va ha guardar
         int contador = 0;
-
+        //Este es el String en el que se guardaran los resultados
         String [] posmov = new String[14];
+        //Este bucle sera el que se quede una posición fija en este caso la de la fila y vaya aumentando las columnas. El bucle es de 7 posiciones porque le torre ya estará ocupando una de las 7 casillas
         for (int i = 0;i <= 7 ; i++) {
             String aux = String.valueOf(i);
             String posaux = posf + aux;
+            //Esta condición sirve para comprobar que la nueva posición calculada teniendo en cuenta una fila fija y unas columnas que van aumentando no sea la posición que se le ha asignado a la torre al inicio
             if (!posicion.equals(posaux)) {
                 posmov[contador] = posaux;
                 contador++;
             }
         }
+        //Este bucle es el mismo que el anterior pero esta vez la posición fija son las columnas y lo que se va incrementando son las filas
         for (int p = 0; p<= 7 ; p++){
             String aux2 = String.valueOf(p);
             String posaux2 =  aux2 + posc ;
@@ -325,15 +330,18 @@ public class Main {
     }
 
     public static String [] movimientosAlfil (String posicion) {
+        //Hasta la linea 70 son casteos que hago para transformar el string que me da posición con los números de la fila y la columna para poder pasarlo a enteros y trabajar con ellos.
         char pos1 = posicion.charAt(0);
         String f = String.valueOf(pos1);
         char pos2 = posicion.charAt(1);
         String c = String.valueOf(pos2);
         int posf = Integer.parseInt(f);
         int posc = Integer.parseInt(c);
+        //He creado 2 nuevas variables que son iguales a posf y posc para que al hacer los incrementos y decrementos para calcular las posibles posicionnes del Alfil no cambiar las posiciones originales de posf y posc y así tener una forma de volver ha inicializarlas después de cada bucle para que el alfil no se mueva de la posición original y vaya calculado los posibles movimientos desde las posiciones incorrectas
         int auxf = posf;
         int auxc = posc;
         String[] posmov = new String[13];
+        //Este contador sera el encargado de asignarle una posición dentro del array de String a cada posible resultado de la torre que va ha guardar
         int count = 0;
         for (int i = 0; i < 7; i++) {
             auxc++;
